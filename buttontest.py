@@ -1,53 +1,50 @@
 import RPi.GPIO as GPIO
 import time
-from playsound import playsound
+import pygame
 
 GPIO.setmode(GPIO.BCM)
 
-GPIO.setup(23, GPIO.IN, pull_up_down=GPIO.PUD_UP)
-GPIO.setup(17, GPIO.OUT)
-GPIO.setup(22, GPIO.OUT)
-GPIO.setup(27, GPIO.OUT)
+GPIO.setup(12, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 
-lights = [17, 27, 22]
+lights = [21, 20, 16]
+
+for x in lights:
+    GPIO.setup(x, GPIO.OUT)
+
+
 wts = .05
 count = 1
-#pygame.mixer.init()
-#pygame.mixer.music.load('blast.wav')
+
+pygame.init()
+pygame.mixer.init()
+hitsound = pygame.mixer.Sound('ding2.wav')
+winsound = pygame.mixer.Sound('russia2.wav')
 
 
 while True:
-    button_state = GPIO.input(23)
+    button_state = GPIO.input(12)
 
     
     if button_state == False:
         for x in range(count):
             GPIO.output(lights[x],True)
-            
+        hitsound.play()   
         time.sleep(0.2)
         print ("Score is: " + str(count))
         count += 1
         
     if count == 4:
         print("you win")
-            
+        winsound.play()    
         while count <= 30:
-            GPIO.output(17, True)
-            time.sleep(wts)
-            GPIO.output(27, True)
-            time.sleep(wts)
-            GPIO.output(22, True)
-            time.sleep(wts)
-            GPIO.output(17, False)
-            time.sleep(wts)
-            GPIO.output(27, False)
-            time.sleep(wts)
-            GPIO.output(22, False)
-            time.sleep(wts)
-            count += 1
             
-        for x in lights:
-            GPIO.output(x, False)
+            for x in lights:
+                GPIO.output(x, True)
+                time.sleep(wts)
+            for x in lights:
+                GPIO.output(x, False)
+                time.sleep(wts)
+            count += 1
             
         GPIO.cleanup()
         break

@@ -1,13 +1,8 @@
 import pygame
-import time
 
-pygame.mixer.pre_init(44100, 16, 2, 4096)
 pygame.init()
+pygame.mixer.init()
+sounda = pygame.mixer.Sound('ding2.wav')
+sounda.play()
 
-
-hitsound = pygame.mixer.Sound('blast.wav')
-winsound = pygame.mixer.Sound('russiaogg.ogg')
-
-time.sleep(0.5)
-
-hitsound.play()
+print('test complete')
