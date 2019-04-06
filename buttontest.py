@@ -22,7 +22,7 @@ count = 1
 pygame.init()
 pygame.mixer.init()
 hitsound = pygame.mixer.Sound('ding2.wav')
-winsound = pygame.mixer.Sound('russia2.wav')
+winsound = pygame.mixer.Sound('rocky.wav')
 
 
 
